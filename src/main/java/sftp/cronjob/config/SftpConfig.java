@@ -2,6 +2,7 @@ package sftp.cronjob.config;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.expression.common.LiteralExpression;
@@ -17,14 +18,23 @@ import java.io.File;
 
 public class SftpConfig {
 
+    @Value("${application.sftp.host}")
+    private String host = "";
+    @Value("${application.sftp.port}")
+    private int port = 22;
+    @Value("${application.sftp.user}")
+    private String user = "";
+    @Value("${application.sftp.password}")
+    private String password = "";
+
     private static Logger logger = Logger.getLogger(SftpConfig.class.getName());
     @Bean
     public DefaultSftpSessionFactory sftpSessionFactory() {
         DefaultSftpSessionFactory factory = new DefaultSftpSessionFactory(true);
-        factory.setHost("103.214.8.153");
-        factory.setPort(22);
-        factory.setUser("administrator");
-        factory.setPassword("%E-NE1e6WS");
+        factory.setHost(host);
+        factory.setPort(port);
+        factory.setUser(user);
+        factory.setPassword(password);
         factory.setAllowUnknownKeys(true);
         return factory;
     }
